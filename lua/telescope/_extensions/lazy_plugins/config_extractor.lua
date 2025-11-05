@@ -101,7 +101,7 @@ function PluginSpecExtractor.generate_plugin_opts_buf_content(plugin_opts, entry
   local comment = "-- %s options passed into `<plugin_module>.setup(opts)` by lazy.nvim"
   local info = "-- (Use `q` for close)"
   table.insert(content, 1, info)
-  table.insert(content, 1, string.format(comment, entry.full_name))
+  table.insert(content, 1, comment:format(entry.full_name))
 
   return content
 end
@@ -137,7 +137,7 @@ end
 function PluginSpecExtractor.open_config_from_lazy_nvim(close_picker_fn, entry, opts)
   local title, content = PluginSpecExtractor.get_used_plugin_options(entry)
   if not title or not content then
-    vim.notify(string.format("Not enabled plugin %s", entry.name), vim.log.levels.WARN)
+    vim.notify(("Not enabled plugin %s"):format(entry.name), vim.log.levels.WARN)
     return
   end
 

@@ -53,7 +53,7 @@ local function check_health()
   if not (vim.uv or vim.loop).fs_stat(opts.lazy_config) then
     error("No Lazy configuration file found. (Set in `lazy_config`)")
   else
-    ok(string.format("lazy_config found: `%s`", opts.lazy_config))
+    ok(("lazy_config found: `%s`"):format(opts.lazy_config))
   end
 
   --- Entries
@@ -118,15 +118,15 @@ local function check_health()
     for i, entry in ipairs(config.raw_custom_entries) do
       local msg = ""
       if not entry.name or type(entry.name) ~= "string" or entry.name == "" then
-        msg = string.format("- name: '%s'\n", entry.name or "Empty name")
+        msg = ("- name: '%s'\n"):format(entry.name or "Empty name")
         errors_detected = true
       end
       if not entry.filepath or vim.fn.filereadable(entry.filepath) ~= 1 then
-        msg = msg .. string.format("- filepath: '%s'\n", entry.filepath or "Empty filepath")
+        msg = ("%s- filepath: '%s'\n"):format(msg, entry.filepath or "Empty filepath")
         errors_detected = true
       end
       if entry.repo_dir and vim.fn.isdirectory(entry.repo_dir) ~= 1 then
-        msg = msg .. string.format("- repo_dir:\n'%s'\n", entry.repo_dir)
+        msg = ("%s- repo_dir:\n'%s'\n"):format(msg, entry.repo_dir)
         errors_detected = true
       end
 
@@ -139,7 +139,7 @@ local function check_health()
     if errors_detected then
       local msg = "Problems detected in user custom_entries:\n"
       for idx, error_msg in pairs(custom_entries_errors) do
-        msg = msg .. string.format("Custom entry number %d:\n%s", idx, error_msg)
+        msg = ("%sCustom entry number %d:\n%s"):format(msg, idx, error_msg)
       end
       error(msg)
     else

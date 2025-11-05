@@ -31,7 +31,7 @@ function lp_actions.get_selected_entry(field)
   local selected_entry = action_state.get_selected_entry().value ---@type LazyPluginsData
   if not selected_entry[field] or selected_entry[field] == "" then
     local msg = "Missing `%s` field for `%s` from the Lazy plugin spec."
-    vim.notify(string.format(msg, field, selected_entry.name), vim.log.levels.WARN)
+    vim.notify(msg:format(field, selected_entry.name), vim.log.levels.WARN)
     return
   end
   if field == "repo_dir" and not (vim.uv or vim.loop).fs_stat(selected_entry.repo_dir) then
@@ -39,7 +39,7 @@ function lp_actions.get_selected_entry(field)
     if selected_entry.disabled then
       msg = "Disabled plugin: " .. msg
     end
-    vim.notify(string.format(msg, selected_entry.repo_dir), vim.log.levels.WARN)
+    vim.notify(msg:format(selected_entry.repo_dir), vim.log.levels.WARN)
     return
   end
 
@@ -143,7 +143,7 @@ function lp_actions.open_repo_find_files(prompt_bufnr)
   lp_actions.append_to_telescope_history(prompt_bufnr)
   actions.close(prompt_bufnr)
   builtin.find_files({
-    prompt_title = string.format("Find Files - %s", entry.name),
+    prompt_title = ("Find Files - %s"):format(entry.name),
     cwd = entry.repo_dir,
   })
 end
@@ -156,7 +156,7 @@ function lp_actions.open_repo_live_grep(prompt_bufnr)
     return
   end
 
-  local opts = { prompt_title = string.format("Live Grep - %s", entry.name) }
+  local opts = { prompt_title = ("Live Grep - %s"):format(entry.name) }
   local cfg_ok, cfg = pcall(require, "telescope._extensions.lazy_plugins.config")
   if cfg_ok and cfg.options and cfg.options.live_grep then
     opts = vim.tbl_deep_extend("force", opts, cfg.options.live_grep)
@@ -201,7 +201,7 @@ function lp_actions.open_repo_url(prompt_bufnr)
   actions.close(prompt_bufnr)
   local cmd_output = vim.fn.jobstart({ open_url_cmd, entry.repo_url }, { detach = true })
   if cmd_output <= 0 then
-    local msg = string.format("Error opening '%s' with '%s'.", entry.repo_url, open_url_cmd)
+    local msg = ("Error opening '%s' with '%s'."):format(entry.repo_url, open_url_cmd)
     vim.notify(msg, vim.log.levels.ERROR, { title = "Telescope Lazy Plugins" })
   end
 end

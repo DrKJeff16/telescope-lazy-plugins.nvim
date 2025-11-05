@@ -33,19 +33,18 @@ end
 ---@param filepath string Full file path
 ---@return integer, boolean -- Matching line number or 1, true if found string
 function M.line_number_search(repo_name, filepath)
-  local find = string.find
   -- search patterns for single and double quotes
-  local dq_search = string.format([["%s"]], repo_name)
-  local sq_search = string.format([['%s']], repo_name)
+  local dq_search = ([["%s"]]):format(repo_name)
+  local sq_search = ([['%s']]):format(repo_name)
 
   local from_line = M.get_last_search_history(repo_name, filepath) or 1
   local current_line = 1
 
   local file, err = io.open(filepath)
   assert(file, err)
-  for line_str in file:lines() do
+  for line_str in file:lines() do ---@cast line_str string
     if current_line >= from_line then
-      if find(line_str, dq_search, 1, true) or find(line_str, sq_search, 1, true) then
+      if line_str:find(dq_search, 1, true) or line_str:find(sq_search, 1, true) then
         M.add_search_history(repo_name, filepath, current_line + 1)
         file:close()
         return current_line, true
@@ -54,13 +53,12 @@ function M.line_number_search(repo_name, filepath)
     current_line = current_line + 1
   end
 
-  local msg = string.format(
-    "Can't find '%s' from line %s inside the '%s' file. Use checkhealth for details.",
+  local msg = ("Can't find '%s' from line %s inside the '%s' file."):format(
     repo_name,
     from_line,
     filepath
   )
-  vim.notify(msg, vim.log.levels.TRACE)
+  vim.notify(msg .. " Use checkhealth for details.", vim.log.levels.TRACE)
   return 1, false
 end
 
@@ -335,7 +333,7 @@ function M.extract_plugin_info(mod, cfg_path)
   local line = M.line_number_search(full_name, cfg_path)
   local repo_url = mod.url
     or full_name:match("^http[s]?://") and full_name
-    or string.format("https://github.com/%s", full_name)
+    or ("https://github.com/%s"):format(full_name)
     or mod.dir and mod.dir
     or ""
   local disabled = not mod.enabled
