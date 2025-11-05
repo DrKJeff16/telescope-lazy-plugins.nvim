@@ -73,7 +73,7 @@ function lp_actions.open(prompt_bufnr)
   -- Open the file in a new buffer
   action_set.select(prompt_bufnr, "default")
   -- Set current line at the top position of the view
-  vim.cmd(":normal! zt")
+  vim.cmd.norm({ "zt", bang = true })
 end
 
 ---Custom picker action to open the plugin README file
@@ -129,7 +129,7 @@ function lp_actions.open_repo_dir(prompt_bufnr)
   lp_actions.append_to_telescope_history(prompt_bufnr)
   actions.close(prompt_bufnr)
   -- Open the folder in a new buffer
-  vim.cmd("edit " .. entry.repo_dir)
+  vim.cmd.edit(entry.repo_dir)
 end
 
 ---Open the builtin `find_files` Telescope picker at the plugin repo dir

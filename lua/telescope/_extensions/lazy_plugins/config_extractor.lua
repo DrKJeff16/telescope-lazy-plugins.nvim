@@ -70,7 +70,7 @@ end
 ---@param tab_title string Tab title
 ---@param content string[] String lines to fill the window
 function PluginSpecExtractor.create_newtab(tab_title, content)
-  vim.cmd("tabnew")
+  vim.cmd.tabnew()
   local bufnr = vim.api.nvim_get_current_buf()
   vim.api.nvim_buf_set_keymap(
     bufnr,
