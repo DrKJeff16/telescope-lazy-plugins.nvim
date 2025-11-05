@@ -72,13 +72,12 @@ end
 function PluginSpecExtractor.create_newtab(tab_title, content)
   vim.cmd.tabnew()
   local bufnr = vim.api.nvim_get_current_buf()
-  vim.api.nvim_buf_set_keymap(
-    bufnr,
-    "n",
-    "q",
-    "<Cmd>bdelete!|tabclose<CR>",
-    { noremap = true, silent = true, desc = "Telescope Lazy Plugins: Close config tab" }
-  )
+  vim.keymap.set("n", "q", "<CMD>bdelete!|tabclose<CR>", {
+    noremap = true,
+    silent = true,
+    desc = "Telescope Lazy Plugins: Close config tab",
+    buffer = bufnr,
+  })
   vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, content)
   vim.api.nvim_buf_set_name(bufnr, tab_title)
   vim.api.nvim_set_option_value("filetype", "lua", { buf = bufnr })
