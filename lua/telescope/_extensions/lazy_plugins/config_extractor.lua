@@ -143,9 +143,10 @@ function PluginSpecExtractor.open_config_from_lazy_nvim(close_picker_fn, entry, 
   close_picker_fn()
   if vim.tbl_get(opts, "opts_viewer") == "tab" then
     PluginSpecExtractor.create_newtab(title, content)
-  else
-    PluginSpecExtractor.create_floating_window(title, content)
+    return
   end
+
+  PluginSpecExtractor.create_floating_window(title, content)
 end
 
 return PluginSpecExtractor
