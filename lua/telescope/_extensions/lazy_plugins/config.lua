@@ -16,7 +16,7 @@ local defaults = {
     opts_viewer = "float", -- How to open the generated plugin options.
   },
   mappings = {
-    ["i"] = {
+    i = {
       ["<C-g>d"] = lp_actions.open_repo_dir,
       ["<C-g>f"] = lp_actions.open_repo_find_files,
       ["<C-g>l"] = lp_actions.open_repo_live_grep,
@@ -25,14 +25,14 @@ local defaults = {
       ["<C-g>x"] = lp_actions.open_repo_url,
       ["<C-g>R"] = lp_actions.rescan_plugins,
     },
-    ["n"] = {
-      ["gd"] = lp_actions.open_repo_dir,
-      ["gf"] = lp_actions.open_repo_find_files,
-      ["gl"] = lp_actions.open_repo_live_grep,
-      ["gc"] = lp_actions.open_plugin_opts,
-      ["gr"] = lp_actions.open_plugin_readme,
-      ["gx"] = lp_actions.open_repo_url,
-      ["gR"] = lp_actions.rescan_plugins,
+    n = {
+      gd = lp_actions.open_repo_dir,
+      gf = lp_actions.open_repo_find_files,
+      gl = lp_actions.open_repo_live_grep,
+      gc = lp_actions.open_plugin_opts,
+      gr = lp_actions.open_plugin_readme,
+      gx = lp_actions.open_repo_url,
+      gR = lp_actions.rescan_plugins,
     },
   },
   picker_opts = {
