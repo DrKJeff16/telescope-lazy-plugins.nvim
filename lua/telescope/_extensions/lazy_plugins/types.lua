@@ -1,5 +1,7 @@
 ---@meta
 
+---@module "lazy"
+
 ---Stores the relevant Lazy plugin spec data to use by the picker.
 ---@class LazyPluginsData
 ---@field name string Name of the plugin showed in the picker
@@ -19,8 +21,6 @@
 ---@field import? string|LazyMinSpec[]
 ---@field cond? boolean|fun():boolean
 ---@field enabled? boolean|fun():boolean
-
----@module "lazy"
 
 ---@class LazyPluginsFragment
 ---@field mod LazyMinSpec|LazyPluginSpec

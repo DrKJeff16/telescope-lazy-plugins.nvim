@@ -58,7 +58,7 @@ function M.line_number_search(repo_name, filepath)
     from_line,
     filepath
   )
-  vim.notify(msg .. " Use checkhealth for details.", vim.log.levels.TRACE)
+  vim.notify(("%s Use checkhealth for details."):format(msg), vim.log.levels.TRACE)
   return 1, false
 end
 
@@ -155,7 +155,7 @@ function M.ls(path, fn)
       break
     end
 
-    local fname = path .. "/" .. name
+    local fname = vim.fs.joinpath(path, name)
     _type = _type or vim.uv.fs_stat(fname).type
     ---@cast _type string
     if fn(fname, name, _type) == false then
@@ -188,10 +188,10 @@ function M.lsmod(modname)
   M.ls(root, function(path, name, type)
     if name == "init.lua" then
       add_modspec(modname, path)
-    elseif (type == "file" or type == "link") and name:sub(-4) == ".lua" then
-      add_modspec(modname .. "." .. name:sub(1, -5), path)
-    elseif type == "directory" and vim.uv.fs_stat(path .. "/init.lua") then
-      add_modspec(modname .. "." .. name, path .. "/init.lua")
+    elseif vim.list_contains({ "file", "link" }, type) and name:sub(-4) == ".lua" then
+      add_modspec(("%s.%s"):format(modname, name:sub(1, -5)), path)
+    elseif type == "directory" and vim.uv.fs_stat(vim.fs.joinpath(path, "init.lua")) then
+      add_modspec(("%s.%s"):format(modname, name), vim.fs.joinpath(path, "init.lua"))
     end
   end)
 

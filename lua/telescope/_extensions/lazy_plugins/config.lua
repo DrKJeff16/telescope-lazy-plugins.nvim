@@ -5,7 +5,7 @@ local M = {}
 
 ---@type TelescopeLazyPluginsConfig
 local defaults = {
-  lazy_config = vim.fn.stdpath("config") .. "/lua/config/lazy.lua", -- This must be a valid path to the file containing the lazy opts and setup() call.
+  lazy_config = vim.fs.joinpath(vim.fn.stdpath("config"), "lua/config/lazy.lua"), -- This must be a valid path to the file containing the lazy opts and setup() call.
   name_only = true, -- Match only the `repo_name`, false to match the full `account/repo_name`.
   show_disabled = true, -- Also show disabled plugins from the Lazy spec.
   auto_rescan = true, -- Automatic rescan and rebuild the spec list when lazy detects a change in the config.
@@ -54,8 +54,12 @@ function M.setup(opts)
 
   local lazy_cfg = vim.fn.expand(M.options.lazy_config)
   if not lazy_cfg or not (vim.uv or vim.loop).fs_stat(lazy_cfg) then
-    local msg = "telescope-lazy-plugins: lazy_config file cannot be accessed: '%s'."
-    vim.notify(msg:format(lazy_cfg), vim.log.levels.WARN)
+    vim.notify(
+      ("telescope-lazy-plugins: lazy_config file cannot be accessed: '%s'."):format(
+        lazy_cfg
+      ),
+      vim.log.levels.WARN
+    )
   end
   M.options.lazy_config = lazy_cfg
 
@@ -123,8 +127,8 @@ function M.create_custom_entries_from_user_config()
       if not M.raw_custom_entries then
         M.raw_custom_entries = vim.deepcopy(M.options.custom_entries) -- Used by checkhealth
         vim.notify(
-          "[telescope-lazy-plugins] Errors detected in custom_entries.\n"
-            .. "Run ':checkhealth telescope' for more details.",
+          [[[telescope-lazy-plugins] Errors detected in custom_entries.
+Run ':checkhealth telescope' for more details.]],
           vim.log.levels.WARN
         )
       end

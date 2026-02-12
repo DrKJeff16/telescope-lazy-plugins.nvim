@@ -90,7 +90,7 @@ end
 ---@return string[] -- A list of formatted lines
 function PluginSpecExtractor.generate_plugin_opts_buf_content(plugin_opts, entry)
   local content = vim.split(vim.inspect(plugin_opts), "\n")
-  content[1] = "return " .. content[1]
+  content[1] = ("return %s"):format(content[1])
 
   local pattern = "<function (%d)>"
   local new_string = "function() end, -- <function #%1>"
@@ -121,7 +121,7 @@ function PluginSpecExtractor.get_used_plugin_options(entry)
   local plugin = vim.tbl_get(require("lazy.core.config").plugins, entry.name)
   local plugin_opts = require("lazy.core.plugin").values(plugin, "opts", false)
 
-  local title = entry.name .. " opts"
+  local title = ("%s opts"):format(entry.name)
   local content = PluginSpecExtractor.generate_plugin_opts_buf_content(plugin_opts, entry)
 
   return title, content
@@ -136,7 +136,7 @@ end
 function PluginSpecExtractor.open_config_from_lazy_nvim(close_picker_fn, entry, opts)
   local title, content = PluginSpecExtractor.get_used_plugin_options(entry)
   if not title or not content then
-    vim.notify(("Not enabled plugin %s"):format(entry.name), vim.log.levels.WARN)
+    vim.notify(("Disabled plugin %s"):format(entry.name), vim.log.levels.WARN)
     return
   end
 

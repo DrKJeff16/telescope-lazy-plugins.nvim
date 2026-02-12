@@ -96,7 +96,8 @@ function lp_actions.open_plugin_readme(prompt_bufnr)
         if type == "file" and name:lower():match("readme") then
           readme = path
           return false
-        elseif type == "directory" then
+        end
+        if type == "directory" then
           lp_finder.ls(path, find_readme)
         end
       end
@@ -161,7 +162,7 @@ function lp_actions.open_repo_live_grep(prompt_bufnr)
   if cfg_ok and cfg.options and cfg.options.live_grep then
     opts = vim.tbl_deep_extend("force", opts, cfg.options.live_grep)
   end
-  opts["cwd"] = entry.repo_dir
+  opts.cwd = entry.repo_dir
 
   lp_actions.append_to_telescope_history(prompt_bufnr)
   actions.close(prompt_bufnr)

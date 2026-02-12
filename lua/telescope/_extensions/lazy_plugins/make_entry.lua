@@ -3,8 +3,8 @@ local make_entry = require("telescope.make_entry")
 
 ---@param opts TelescopeLazyPluginsConfig
 local function make_entry_lp(opts)
-  local disabled = opts and opts.show_disabled == true
-  local full_name = opts and opts.name_only == false
+  local disabled = opts and opts.show_disabled
+  local full_name = opts and not opts.name_only
 
   local lp_items
   if disabled then
