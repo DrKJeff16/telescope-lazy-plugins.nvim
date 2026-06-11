@@ -9,7 +9,11 @@ local links = {
 
 function M.setup()
   for k, v in pairs(links) do
-    vim.api.nvim_set_hl(0, ("TelescopeLazyPlugins%s"):format(k), { link = v, default = true })
+    vim.api.nvim_set_hl(
+      0,
+      ("TelescopeLazyPlugins%s"):format(k),
+      { link = v, default = true }
+    )
   end
 end
 
